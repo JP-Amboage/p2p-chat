@@ -1,0 +1,37 @@
+CREATE DATABASE project WITH OWNER = "postgres" ENCODING 'UTF8';
+ 
+GRANT ALL PRIVILEGES ON DATABASE project to "postgres";
+ 
+\connect project  postgres
+
+CREATE TABLE USUARIOS (
+    nombre VARCHAR(30) NOT NULL,
+    contrasena VARCHAR(30) NOT NULL,
+    PRIMARY KEY (nombre)
+);
+
+CREATE TABLE SOLICITUDES (
+    solicitante VARCHAR(30) NOT NULL,
+    solicitado VARCHAR(30) NOT NULL,
+
+    FOREIGN KEY (solicitante) REFERENCES USUARIOS(nombre)
+		ON DELETE CASCADE ON UPDATE CASCADE,
+    
+    FOREIGN KEY (solicitado) REFERENCES USUARIOS(nombre)
+		ON DELETE CASCADE ON UPDATE CASCADE,
+    
+    PRIMARY KEY (solicitante,solicitado)
+);
+
+CREATE TABLE AMIGOS (
+    usuario VARCHAR(30) NOT NULL,
+    amigo VARCHAR(30) NOT NULL,
+
+    FOREIGN KEY (usuario) REFERENCES USUARIOS(nombre)
+		ON DELETE CASCADE ON UPDATE CASCADE,
+    
+    FOREIGN KEY (amigo) REFERENCES USUARIOS(nombre)
+		ON DELETE CASCADE ON UPDATE CASCADE,
+    
+    PRIMARY KEY (usuario,amigo)
+);
